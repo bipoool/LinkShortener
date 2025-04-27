@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -42,6 +43,13 @@ func InitialiseLinkShortenerServerAndDependencies() *LinkShortenerServer {
 	ginEngine := gin.New()
 	ginEngine.Use(gin.Recovery())
 	ginEngine.Use(middleware.SlogMiddleware())
+
+	ginEngine.Use(cors.New(cors.Config{
+		AllowOrigins:  []string{"*"},
+		AllowMethods:  []string{"POST", "GET", "OPTIONS"},
+		AllowHeaders:  []string{"Origin", "Content-Type"},
+		ExposeHeaders: []string{"Content-Length"},
+	}))
 
 	httpServer := &http.Server{
 		Addr:    ":" + config.Config.Server.Port,
