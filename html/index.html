@@ -143,11 +143,11 @@
                 if (data['short-url']) {
                     document.getElementById('result').innerHTML = `Short URL: <a href="${data['short-url']}" target="_blank">${data['short-url']}</a>`;
                 } else {
-                    document.getElementById('result').innerText = 'Rate Limitted or URL not correct';
+                    document.getElementById('result').innerText = 'Something Went Wrong! Check the URL';
                 }
             } catch (error) {
                 console.error(error);
-                document.getElementById('result').innerText = 'Failed to shorten URL.';
+                document.getElementById('result').innerText = 'Rate Limited or Server not working';
             }
         });
     </script>
