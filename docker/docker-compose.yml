@@ -49,17 +49,6 @@ services:
       - dicedb
       - postgres
 
-  nginx:
-    build:
-      context: ./nginx
-    container_name: nginx
-    ports:
-      - "80:80"
-    networks:
-      - app_network
-    depends_on:
-      - go_app
-
 networks:
   app_network:
     driver: bridge
