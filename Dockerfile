@@ -5,7 +5,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 RUN go build -o main .
-EXPOSE 8080
+EXPOSE 8081
 
 # Run the executable
 CMD ["./main"]

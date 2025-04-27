@@ -25,7 +25,7 @@ type LinkShortenerConfig struct {
 	Server struct {
 		// Server Configuration
 		LogLevel string `mapstructure:"logLevel" default:"info" description:"Log Level"`
-		Port     string `mapstructure:"port" default:"8080" description:"Port to run the server"`
+		Port     string `mapstructure:"port" default:"8081" description:"Port to run the server"`
 		Domain   string `mapstructure:"domain" default:"https://shtln.xyz/" description:"Domain"`
 	} `mapstructure:"server" description:"Server Configuration"`
 }
