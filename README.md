@@ -1,8 +1,3 @@
-Got it!  
-Here’s the updated **README.md** including the API usage and your deployment details 👇:
-
----
-
 # LinkShortener
 
 A simple and efficient URL shortener service built with **Go**, **PostgreSQL**, and **DiceDB** (in-memory cache).
