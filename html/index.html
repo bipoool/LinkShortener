@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LinkShortner - Shorten your URL</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        pre {
+            background: #eee;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+
+        hr.dashed {
+            border-top: 3px dashed #bbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🚀 LinkShortner</h1>
+
+        <p>Shorten your URLs easily using our simple API powered by <strong>PostgreSQL</strong> and
+            <strong>DiceDB</strong> cache.
+        </p>
+
+        <h3>Try It Yourself</h3>
+        <form id="shorten-form">
+            <input type="text" id="originalUrl" placeholder="https://example.com" required>
+            <button type="submit">Shorten URL</button>
+        </form>
+        <p><strong>Note:</strong> You can create up to <strong>3 short URLs per minute</strong>.</p>
+        <div class="result" id="result"></div>
+        <hr class="dashed">
+        <h2>📜 API Details</h2>
+
+        <p><strong>Endpoint:</strong> <code>POST https://shtln.xyz/url</code></p>
+
+        <h3>Request Payload:</h3>
+        <pre>{
+  "original-url": "https://example.com"
+}</pre>
+
+        <h3>Example Response:</h3>
+        <pre>{
+  "short-url": "https://shtln.xyz/000003"
+}</pre>
+
+        <hr class="dashed">
+        <h2>🌟 GitHub Repository</h2>
+        <p>Explore the code here:</p>
+        <a href="https://github.com/bipoool/LinkShortener" target="_blank">https://github.com/bipoool/LinkShortener</a>
+    </div>
+
+    <script>
+        document.getElementById('shorten-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const url = document.getElementById('originalUrl').value.trim();
+            if (!url) {
+                alert('Please enter a URL!');
+                return;
+            }
+
+            try {
+                const response = await fetch('https://shtln.xyz/url', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'original-url': url
+                    })
+                });
+
+                const data = await response.json();
+                if (data['short-url']) {
+                    document.getElementById('result').innerHTML = `Short URL: <a href="${data['short-url']}" target="_blank">${data['short-url']}</a>`;
+                } else {
+                    document.getElementById('result').innerText = 'Something went wrong. Please try again.';
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('result').innerText = 'Failed to shorten URL.';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
