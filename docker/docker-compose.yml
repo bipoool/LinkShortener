@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: linkshort
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U root -d linkshort" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  dicedb:
+    image: dicedb/dicedb:latest
+    container_name: dicedb
+    ports:
+      - "7379:7379"
+    networks:
+      - app_network
+    healthcheck:
+      test: [ "CMD-SHELL", "echo > /dev/tcp/localhost/7379" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  go_app:
+    build:
+      context: ../
+    container_name: go_app
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+    depends_on:
+      - dicedb
+      - postgres
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    networks:
+      - app_network
+    depends_on:
+      - go_app
+
+networks:
+  app_network:
+    driver: bridge
