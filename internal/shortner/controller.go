@@ -1,6 +1,7 @@
 package shortner
 
 import (
+	"linkshortener/internal/config"
 	"log/slog"
 	"net/http"
 
@@ -53,5 +54,5 @@ func (c *Controller) createUrl(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"short-url": "https://shtln.xyz/" + shortCode})
+	ctx.JSON(http.StatusOK, gin.H{"short-url": config.Config.Server.Domain + shortCode})
 }

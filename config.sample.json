@@ -9,7 +9,8 @@
     },
     "server": {
         "LogLevel": "debug",
-        "port": 8081
+        "port": 8081,
+        "domain": "http://localhost/"
     },
     "cache": {
         "host": "dicedb",
