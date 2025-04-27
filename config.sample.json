@@ -1,0 +1,18 @@
+{
+    "sql": {
+        "db": "linkshort",
+        "host": "postgres",
+        "port": "5432",
+        "user": "root",
+        "password": "",
+        "sslMode": "disable"
+    },
+    "server": {
+        "LogLevel": "debug",
+        "port": 8080
+    },
+    "cache": {
+        "host": "dicedb",
+        "port": "7379"
+    }
+}
